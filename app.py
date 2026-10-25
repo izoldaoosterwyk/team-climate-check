@@ -9,6 +9,7 @@ Rename the app before Demo Day: change APP_NAME below.
 """
 
 import json
+import traceback
 
 import streamlit as st
 
@@ -71,6 +72,7 @@ def landing_view():
         try:
             session = storage.create_session(team_name, min_n)
         except Exception:
+            traceback.print_exc()
             st.error(DB_ERROR)
             return
         st.success("Session created. **Save both links now — the leader link is shown only once.**")
@@ -125,6 +127,7 @@ def survey_view(session):
         try:
             storage.submit_response(session["code"], answers)
         except Exception:
+            traceback.print_exc()
             st.error("Your response could not be saved. Please try submitting again.")
             return
         st.session_state["submitted"] = True
@@ -145,6 +148,7 @@ def leader_view(session):
     try:
         count = storage.response_count(session["code"])
     except Exception:
+        traceback.print_exc()
         st.error(DB_ERROR)
         return
     min_n = session["min_n"]
@@ -234,6 +238,7 @@ def main():
     try:
         session = storage.get_session(code)
     except Exception:
+        traceback.print_exc()
         st.error(DB_ERROR)
         return
     if session is None:
