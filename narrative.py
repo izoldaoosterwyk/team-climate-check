@@ -114,8 +114,9 @@ def get_narrative(aggregates: dict):
             text = _call_gemini(prompt)
         except Exception:
             # Logged server-side only; the reader sees the labelled fallback.
+            # Transient API errors (e.g. 503 high demand) get the second try.
             traceback.print_exc()
-            break
+            continue
         if text:
             passed, offending = grounding_check(text, payload)
             if passed:
