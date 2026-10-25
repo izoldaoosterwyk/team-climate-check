@@ -6,7 +6,7 @@ psychometric training. Scoring is deterministic Python; an LLM (Gemini, via
 API) drafts only the narrative section of the report, from team-level
 aggregates only.
 
-Built for BUS5033W (AI in IOP) Assignment 2 — Grant Oosterwyk.
+Built for BUS5033W (AI in IOP) Assignment 2 — Izolda Oosterwyk.
 
 ## How it works
 
@@ -25,7 +25,7 @@ back to a deterministic template and says so.
 ## Files
 
 - `app.py` — Streamlit UI and routing
-- `instruments.py` — scales, items, anchors, bands, conversation starters (**edit this first** — see the TODO header inside)
+- `instruments.py` — scales, items, anchors, bands, conversation starters (interpretation bands and starters are the owner's editable choices — see header inside)
 - `scoring.py` — deterministic scoring (pure Python, unit-tested)
 - `storage.py` — Supabase layer
 - `narrative.py` — Gemini call, grounding check, template fallback
