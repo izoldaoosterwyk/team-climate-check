@@ -15,6 +15,7 @@ Where the AI sits at run time — and the guardrails around it:
 
 import json
 import re
+import traceback
 
 # The current free-tier Flash model changes over time — set GEMINI_MODEL in
 # secrets to whatever https://ai.google.dev lists as free when you deploy.
@@ -112,6 +113,8 @@ def get_narrative(aggregates: dict):
         try:
             text = _call_gemini(prompt)
         except Exception:
+            # Logged server-side only; the reader sees the labelled fallback.
+            traceback.print_exc()
             break
         if text:
             passed, offending = grounding_check(text, payload)
