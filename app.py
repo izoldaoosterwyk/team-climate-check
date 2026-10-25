@@ -138,9 +138,21 @@ def survey_view(session):
 # View 3 — leader dashboard and report
 # ---------------------------------------------------------------------------
 
-@st.cache_data(show_spinner=False, ttl=3600)
+@st.cache_resource
+def _narrative_cache() -> dict:
+    return {}
+
+
 def _cached_narrative(aggregates_json: str):
-    return get_narrative(json.loads(aggregates_json))
+    """Cache only successful AI narratives: a transient API failure falls
+    back to the template for THIS render but is retried on the next one."""
+    cache = _narrative_cache()
+    if aggregates_json in cache:
+        return cache[aggregates_json]
+    result = get_narrative(json.loads(aggregates_json))
+    if result[1] == "ai":
+        cache[aggregates_json] = result
+    return result
 
 
 def leader_view(session):
